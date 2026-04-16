@@ -185,6 +185,49 @@ def is_gratitude(user_input):
     return any(phrase in text for phrase in gratitude_phrases)
 
 
+def is_conversational_acknowledgement(user_input):
+    """Detect short conversational confirmations that are not new questions."""
+    text = (user_input or "").strip().lower()
+    normalized = text.replace("?", "").replace("!", "").replace(".", "").strip()
+
+    acknowledgements = {
+        "ok", "okay", "ok great", "okay great", "great", "cool", "nice", "awesome",
+        "sounds good", "got it", "understood", "alright", "all right", "perfect",
+        "fine", "good", "yep", "yup", "yeah",
+    }
+    return normalized in acknowledgements
+
+
+def build_acknowledgement_response(state):
+    """Return a context-aware continuation message for small-talk acknowledgements."""
+    if state.get("current_step") == "lead_capture":
+        lead_stage = state.get("lead_stage")
+        if lead_stage == "name":
+            return "Great. Please share your full name so I can continue the booking."
+        if lead_stage == "phone":
+            return "Perfect. Please share your phone number so we can connect."
+        if lead_stage == "location":
+            return "Thanks. Please share your location to complete the request."
+
+    if state.get("pending_clarification_topic") == "service_scope":
+        return "Are you interested in a full home makeover or specific room design?"
+
+    selected_service = state.get("selected_service")
+    if selected_service:
+        return (
+            f"Great. For {selected_service}, I can share pricing, timeline, process details, "
+            "or help you book a consultation."
+        )
+
+    if state.get("entry_stage") == "project_selection":
+        return format_project_type_prompt()
+
+    return (
+        "Great. I am here to help. You can ask about pricing, timeline, materials, "
+        "past projects, or consultation."
+    )
+
+
 def is_contact_timing_query(user_input):
     """Detect queries about when/what time to contact or business hours"""
     text = (user_input or "").strip().lower()
@@ -459,6 +502,11 @@ def process_message(chat_id, user_input, user_state):
 
     if is_gratitude(user_input):
         return format_thank_you_reply(), user_state
+
+    if is_conversational_acknowledgement(user_input):
+        response = build_acknowledgement_response(state)
+        add_to_history(chat_id, state, user_input, response, {"intent": "acknowledgement"})
+        return response, user_state
 
     # Check for contact timing questions (when to contact, business hours) BEFORE other timing checks
     if is_contact_timing_query(user_input):
