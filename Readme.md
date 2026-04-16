@@ -110,6 +110,28 @@ Use these sheets and columns:
 
 Current code saves leads to local data/leads.csv.
 
+## Knowledge Base Docs
+
+You can also add business knowledge as local documents.
+
+Supported document types:
+- `.md` markdown files
+- `.txt` text files
+- `.docx` Word files
+
+Place them inside:
+
+```text
+data/knowledge_base/
+```
+
+Best practice:
+- Use one topic per file, such as `process.md`, `warranty.docx`, `materials.txt`
+- Keep headings and short sections, so the bot can retrieve better chunks
+- Put exact business facts in Sheets and explanatory content in docs
+
+If you prefer Google Docs, export the document to `.docx` or copy the content into `.md` or `.txt` before adding it.
+
 ## How Lead Capture Works
 
 When user reaches consultation yes path:

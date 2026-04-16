@@ -57,6 +57,45 @@ def format_faq_answer(answer, question=None):
     return f"""Answer: {answer}"""
 
 
+def format_knowledge_answer(answer, source=None):
+    """Format answer sourced from local knowledge base documents"""
+    if source:
+        return f"""From our knowledge base ({source}):
+
+{answer}"""
+    return f"""From our knowledge base:
+
+{answer}"""
+
+
+def format_projects_fallback():
+    """Fallback when project/case-study data is unavailable"""
+    return (
+        "I could not find a clear case-study match in the current project portfolio data. "
+        "If you share your preferred style, budget, and project type, I can suggest relevant project directions. "
+        "You can also book a consultation at +91-9876543119 for a curated walkthrough of past work."
+    )
+
+
+def format_materials_fallback():
+    """Fallback when material-specific data is unavailable"""
+    return (
+        "Typical interior materials include plywood or blockboard for cabinetry, laminates or veneers for finishes, "
+        "engineered hardware, and gypsum with paint-based finishes for ceilings and walls. "
+        "Final material selection depends on budget, durability needs, and style preferences."
+    )
+
+
+def format_project_portfolio_answer(text):
+    """Format a portfolio-style answer from case studies"""
+    return text
+
+
+def format_materials_answer(text):
+    """Format a materials answer from the knowledge base"""
+    return text
+
+
 def format_pricing_info(pricing_data):
     """Format pricing information"""
     msg = "💰 **Pricing Information**\n\n"
@@ -115,6 +154,103 @@ def format_call_timing_reply():
     )
 
 
+def format_clarifying_question(question):
+    """Format a clarifying question when confidence is medium"""
+    return f"One quick clarification before I answer:\n\n{question}"
+
+
+def format_medium_confidence_answer(answer_snippet):
+    """Format answer with a note about partial confidence"""
+    return f"""Based on available info:
+
+{answer_snippet}
+
+If you want more specific details, feel free to share more context, or we can pair you with our design team for a personalized consultation."""
+
+
+def get_varied_budget_response(service_label, min_price, max_price):
+    """Get budget response with variation"""
+    import random
+    
+    variants = [
+        f"For {service_label}, the typical budget range is {min_price} to {max_price}. "
+        "The lower range covers essential finishes with standard materials, while the upper range allows for premium options and custom design elements.",
+        
+        f"{service_label} projects usually range from {min_price} to {max_price}, depending on material choices and customization. "
+        "A mid-range budget typically gives you quality work with good material selection and design flexibility.",
+        
+        f"You can plan for {service_label} within {min_price} to {max_price}. "
+        "The exact amount depends on the scope, finishes you choose, and any special customizations you're looking for.",
+    ]
+    
+    return random.choice(variants)
+
+
+def get_varied_customization_response():
+    """Get customization response with variation"""
+    import random
+    
+    variants = [
+        "Customization is very flexible. You can modify modular kitchen layouts, wardrobe internals, lighting designs, false ceilings, and storage solutions. "
+        "Since each choice affects cost, we recommend a quick consultation to plan the perfect mix for your needs.",
+        
+        "We offer wide customization: from kitchen finishes and wardrobe organization to lighting schemes, ceiling designs, and space optimization. "
+        "Different combinations affect the budget differently, so discussing your priorities with our team helps us nail the estimate.",
+        
+        "You have options for nearly everything: kitchen design, wardrobe types, lighting, false ceilings, and more. "
+        "The challenge is fitting it within budget, which is why a short consultation helps us find the best balance for you.",
+    ]
+    
+    return random.choice(variants)
+
+
+def get_varied_timeline_response():
+    """Get timeline response with variation"""
+    import random
+    
+    variants = [
+        "Timeline varies by scope. A standard home interior typically takes a few weeks from design approval to completion. "
+        "Premium customization or complex layouts can take longer, and it also depends on material availability and your site readiness.",
+        
+        "Most projects complete within a few weeks of execution, but the full timeline includes design approvals and material sourcing, which adds time. "
+        "Exact duration depends on your project size and how quickly approvals come through.",
+        
+        "We usually complete work in a reasonable timeframe, but the exact schedule depends on design complexity, customization choices, and material lead times. "
+        "We'll give you a precise timeline once we understand your project details.",
+    ]
+    
+    return random.choice(variants)
+
+
+def get_varied_process_response():
+    """Get process response with variation"""
+    import random
+    
+    variants = [
+        "Our process is straightforward: we start with understanding your needs and space, create a design proposal, finalize materials with you, execute the work, and hand over the finished project. "
+        "Each step involves your feedback to ensure the result matches your vision.",
+        
+        "We work in phases: initial consultation and space analysis, design creation, client approval, material sourcing, execution, and final handover. "
+        "You're involved at every stage to make sure we're on the right track.",
+        
+        "From discussion to completion, we follow a structured path: requirement gathering, design mock-ups, material selection, on-site execution, and quality checks. "
+        "Your input at each stage keeps us aligned with your expectations.",
+    ]
+    
+    return random.choice(variants)
+
+
+def format_clarification_pending(question, answer_hint=None):
+    """Format a medium-confidence reply that asks for clarification"""
+    if answer_hint:
+        return f"""Based on what I found so far:
+
+{answer_hint}
+
+{question}"""
+    return f"""{question}"""
+
+
 def format_lead_submission():
     """Format lead capture message"""
     return """Great. We would be happy to connect.
@@ -155,6 +291,19 @@ def format_contact_info():
 - Location: Gurgaon, Haryana
 - Hours: 10 AM to 7 PM
 - Service Region: Delhi NCR and nearby areas"""
+
+
+def format_contact_timing_reply():
+    """Format response for contact timing/hours queries"""
+    return """We're available for consultations during:
+
+📞 Business Hours: 10 AM to 7 PM (Monday to Saturday)
+
+Contact us:
+- Phone: +91-9876543119
+- Email: info@spacestalk.com
+
+You can call us within these hours, or drop an email anytime and we'll get back to you soon!"""
 
 
 def wrap_markdown(text):
