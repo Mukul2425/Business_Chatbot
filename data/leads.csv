@@ -1,5 +1,2 @@
-Name,Phone,Location,Requirement,Timestamp,Status
-Aman Verma,+919876543210,Gurgaon,1BHK,2026-04-13 16:06:00,new
-"Mukul Kumar
-8570000005
-Gurgaon",+911234567890,Gurgaon,3BHK,2026-04-15 15:51:09,new
+Name,Phone,Location,Space Type,Budget,Timeline,Consultation Agreed,Preferred Date/Time,Timestamp,Status,Call Attempts,Last Call Attempt
+Mukul Kumar,+919876543210,Gurgaon,3BHK,15-20 lakhs,Within 3 months,True,2026-04-25 14:30,2026-04-21 19:29:32,new,0,

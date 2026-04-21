@@ -1,0 +1,15 @@
+[
+  {
+    "id": "escalation_9876543210_1776779972",
+    "lead_phone": "9876543210",
+    "lead_name": "Mukul Kumar",
+    "reason": "Budget above threshold (\u20b92,000,000)",
+    "created_at": "2026-04-21 19:29:32",
+    "status": "pending",
+    "context": {
+      "space_type": "3BHK",
+      "budget": "15-20 lakhs",
+      "timeline": "Within 3 months"
+    }
+  }
+]

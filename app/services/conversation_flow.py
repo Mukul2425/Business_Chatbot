@@ -86,6 +86,11 @@ def detect_initial_category(user_input):
     return None
 
 
+def normalize_command(user_input):
+    """Normalize Telegram-style commands like /start and /menu."""
+    return (user_input or "").strip().lower().lstrip("/")
+
+
 def is_interior_query(user_input):
     text = (user_input or "").lower()
     interior_keywords = [
@@ -522,7 +527,8 @@ def process_message(chat_id, user_input, user_state):
         state["lead_stage"] = "name"
         return format_lead_submission() + "\n\n" + format_lead_name_prompt(), user_state
     
-    if user_input.lower() in ["start", "menu", "home"]:
+    normalized_command = normalize_command(user_input)
+    if normalized_command in ["start", "menu", "home"]:
         state["current_step"] = "start"
         state["entry_stage"] = "category"
         state["selected_service"] = None
@@ -750,6 +756,8 @@ def process_message(chat_id, user_input, user_state):
                 requirement=state.get("selected_service") or "General inquiry",
             )
             name = state.get("lead_name", "there")
+            state["lead_saved_recently"] = True
+            state["last_saved_lead_name"] = name
             state["current_step"] = "start"
             state["selected_service"] = None
             state["lead_name"] = None
