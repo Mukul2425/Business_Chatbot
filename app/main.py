@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 import logging
 from app.services.sheets_service import load_all_data
-from app.services.conversation_flow_ops import process_message, get_initial_message
+from app.services.conversation_flow_hybrid import process_message, get_initial_message
 from app.bot.telegram import send_message
 
 # Setup logging
@@ -25,12 +25,9 @@ except Exception as e:
 async def webhook(req: Request):
     """
     Main webhook handler for Telegram messages.
-    Implements operational lead management workflow with priority actions:
-    1. Call lead within 3 minutes ⚡
-    2. Save data to Sheets 📊
-    3. Book calendar if agreed 📅
-    4. Send confirmation 💬
-    5. Call team if needed 📞
+    Hybrid workflow:
+    - Assistant answers interior-design queries
+    - Lead capture + booking flow runs when requested
     """
     data = await req.json()
     global user_state
@@ -51,7 +48,8 @@ async def webhook(req: Request):
         # Initialize new user
         if chat_id not in user_state:
             user_state[chat_id] = {
-                "current_step": "greeting",
+                "current_step": "assistant",
+                "lead_stage": None,
                 "lead_name": None,
                 "lead_phone": None,
                 "lead_location": None,
@@ -62,6 +60,7 @@ async def webhook(req: Request):
                 "lead_consultation_datetime": None,
                 "call_lead_triggered": False,
                 "escalation_triggered": False,
+                "gemini_calls": 0,
             }
             response = get_initial_message()
             send_message(chat_id, response)

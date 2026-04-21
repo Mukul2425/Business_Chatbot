@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Test the operational lead management flow"""
+"""Test hybrid assistant + lead workflow"""
 import sys
 sys.path.insert(0, '/Users/mukul/Documents/PROJECTS/Telegram_ai_bot')
 
 from app.services.sheets_service import load_all_data
-from app.services.conversation_flow_ops import process_message, get_initial_message
+from app.services.conversation_flow_hybrid import process_message, get_initial_message
 
 # Load data
 load_all_data()
 print("✅ Data loaded\n")
 
-# Simulate conversation (mimic webhook behavior)
+# Simulate conversation (assistant first, booking later)
 user_state = {}
 chat_id = 123456
 
@@ -18,18 +18,21 @@ chat_id = 123456
 print("📌 [BOT SENDS] Initial Greeting:")
 response = get_initial_message()
 print(response + "\n")
-# Note: webhook initializes state here but doesn't process first input
 
-# Now simulate subsequent messages
+# Now simulate mixed interaction
 test_inputs = [
+    ("Hi", "Greeting"),
+    ("What is typical timeline for 3BHK interiors?", "Assistant Q&A"),
+    ("book consultation", "Lead flow trigger"),
     ("Mukul Kumar", "Name input"),
     ("9876543210", "Phone input"),
     ("Gurgaon", "Location input"),
-    ("3", "Space type (3BHK)"),
+    ("3BHK", "Space type"),
     ("15-20 lakhs", "Budget"),
     ("Within 3 months", "Timeline"),
-    ("1", "Consultation agreement (Yes)"),
+    ("yes", "Consultation agreement"),
     ("25-Apr-2026 14:30", "Preferred datetime"),
+    ("What materials do you recommend for kitchen cabinets?", "Assistant Q&A after booking"),
 ]
 
 for user_input, description in test_inputs:
@@ -37,9 +40,8 @@ for user_input, description in test_inputs:
     response, user_state = process_message(chat_id, user_input, user_state)
     print(f"📌 [BOT SENDS]\n{response}\n")
 
-print("\n✅ Operational flow test complete!")
+print("\n✅ Hybrid flow test complete!")
 print("\nFinal User State:")
-import json
 for key, value in user_state.get(chat_id, {}).items():
     print(f"  {key}: {value}")
 
