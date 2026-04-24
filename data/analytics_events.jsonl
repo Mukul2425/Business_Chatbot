@@ -1,0 +1,32 @@
+{"timestamp": "2026-04-22 22:45:43", "chat_id": "123456", "event": "greeting", "metadata": {}}
+{"timestamp": "2026-04-22 22:45:43", "chat_id": "123456", "event": "assistant_answered", "metadata": {}}
+{"timestamp": "2026-04-22 22:45:43", "chat_id": "123456", "event": "booking_intent_detected", "metadata": {}}
+{"timestamp": "2026-04-22 22:45:43", "chat_id": "123456", "event": "lead_stage_completed", "metadata": {"stage": "name"}}
+{"timestamp": "2026-04-22 22:45:43", "chat_id": "123456", "event": "lead_stage_completed", "metadata": {"stage": "phone"}}
+{"timestamp": "2026-04-22 22:45:43", "chat_id": "123456", "event": "call_lead_triggered", "metadata": {}}
+{"timestamp": "2026-04-22 22:45:43", "chat_id": "123456", "event": "lead_stage_completed", "metadata": {"stage": "location"}}
+{"timestamp": "2026-04-22 22:45:43", "chat_id": "123456", "event": "lead_stage_completed", "metadata": {"stage": "space_type"}}
+{"timestamp": "2026-04-22 22:45:43", "chat_id": "123456", "event": "lead_stage_completed", "metadata": {"stage": "budget", "skipped": true}}
+{"timestamp": "2026-04-22 22:45:43", "chat_id": "123456", "event": "lead_stage_completed", "metadata": {"stage": "timeline", "skipped": true}}
+{"timestamp": "2026-04-22 22:45:43", "chat_id": "123456", "event": "lead_stage_completed", "metadata": {"stage": "consultation_agreed", "value": true}}
+{"timestamp": "2026-04-22 22:45:43", "chat_id": "123456", "event": "lead_saved", "metadata": {"consultation_agreed": true}}
+{"timestamp": "2026-04-22 22:45:43", "chat_id": "123456", "event": "calendar_booked", "metadata": {}}
+{"timestamp": "2026-04-22 22:45:44", "chat_id": "123456", "event": "assistant_answered", "metadata": {}}
+{"timestamp": "2026-04-22 22:45:44", "chat_id": "123456", "event": "booking_intent_detected", "metadata": {}}
+{"timestamp": "2026-04-22 22:45:44", "chat_id": "123456", "event": "booking_cancelled", "metadata": {}}
+{"timestamp": "2026-04-23 00:22:06", "chat_id": "123456", "event": "greeting", "metadata": {}}
+{"timestamp": "2026-04-23 00:22:06", "chat_id": "123456", "event": "assistant_answered", "metadata": {}}
+{"timestamp": "2026-04-23 00:22:06", "chat_id": "123456", "event": "booking_intent_detected", "metadata": {}}
+{"timestamp": "2026-04-23 00:22:06", "chat_id": "123456", "event": "lead_stage_completed", "metadata": {"stage": "name"}}
+{"timestamp": "2026-04-23 00:22:06", "chat_id": "123456", "event": "lead_stage_completed", "metadata": {"stage": "phone"}}
+{"timestamp": "2026-04-23 00:22:06", "chat_id": "123456", "event": "call_lead_triggered", "metadata": {}}
+{"timestamp": "2026-04-23 00:22:06", "chat_id": "123456", "event": "lead_stage_completed", "metadata": {"stage": "location"}}
+{"timestamp": "2026-04-23 00:22:06", "chat_id": "123456", "event": "lead_stage_completed", "metadata": {"stage": "space_type"}}
+{"timestamp": "2026-04-23 00:22:06", "chat_id": "123456", "event": "lead_stage_completed", "metadata": {"stage": "budget", "skipped": true}}
+{"timestamp": "2026-04-23 00:22:06", "chat_id": "123456", "event": "lead_stage_completed", "metadata": {"stage": "timeline", "skipped": true}}
+{"timestamp": "2026-04-23 00:22:06", "chat_id": "123456", "event": "lead_stage_completed", "metadata": {"stage": "consultation_agreed", "value": true}}
+{"timestamp": "2026-04-23 00:22:06", "chat_id": "123456", "event": "lead_saved", "metadata": {"consultation_agreed": true}}
+{"timestamp": "2026-04-23 00:22:06", "chat_id": "123456", "event": "calendar_booked", "metadata": {}}
+{"timestamp": "2026-04-23 00:22:06", "chat_id": "123456", "event": "assistant_answered", "metadata": {}}
+{"timestamp": "2026-04-23 00:22:06", "chat_id": "123456", "event": "booking_intent_detected", "metadata": {}}
+{"timestamp": "2026-04-23 00:22:06", "chat_id": "123456", "event": "booking_cancelled", "metadata": {}}

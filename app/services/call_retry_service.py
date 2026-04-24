@@ -129,6 +129,33 @@ def get_pending_calls():
     return pending
 
 
+def process_due_calls(auto_mark_unanswered=True):
+    """
+    Process all due calls in queue.
+
+    If auto_mark_unanswered=True, calls are marked unanswered immediately
+    and retried/safely failed as per retry policy. This is a simulation-friendly
+    default for automation in environments without telephony callbacks.
+    """
+    due_calls = get_pending_calls()
+    processed = []
+
+    for call in due_calls:
+        call_id = call.get("id")
+        started = mark_call_started(call_id)
+        if not started:
+            continue
+
+        if auto_mark_unanswered:
+            updated = mark_call_unanswered(call_id)
+            if updated:
+                processed.append(updated)
+        else:
+            processed.append(started)
+
+    return processed
+
+
 def get_call_history_by_phone(lead_phone):
     """Get call history for a lead."""
     _ensure_queue_file()

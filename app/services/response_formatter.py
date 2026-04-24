@@ -111,9 +111,9 @@ def format_lead_captured(lead_name, lead_phone):
 Name: {lead_name}
 Phone: {lead_phone}
 
-Our team will reach out to you shortly with personalized recommendations.
+Our team will review your details and connect with you shortly.
 
-Thank you for choosing SpacesTalk! 🏠"""
+Thanks for choosing SpacesTalk. 🏠"""
 
 
 def format_consultation_confirmed(lead_name, consultation_datetime):
@@ -130,22 +130,13 @@ Looking forward to transforming your space!
 — SpacesTalk ✨"""
 
 
-def format_contact_info():
-    """Contact information."""
-    return """📞 Contact SpacesTalk
-
-- Phone: +91-9876543119
-- Email: info@spacestalk.com
-- Working Hours: 10:00 AM - 6:00 PM (Mon-Sat)"""
-
-
 def format_escalation_message():
     """Escalation confirmation to lead."""
     return """🚨 Escalating Your Request
 
-Thank you for your patience. Your request has been escalated to our senior team for immediate attention.
+Thanks for your patience. I have escalated your request to our senior team for priority attention.
 
-Our team will contact you within the next hour to discuss your specific needs and requirements.
+A team specialist will contact you within the next hour to assist further.
 
 — SpacesTalk Team"""
 
@@ -237,7 +228,7 @@ Our human team member will take over shortly to provide personalized assistance.
 
 def format_contact_info():
     """Format contact information"""
-    return """Contact SpacesTalk
+    return """Here is how you can reach SpacesTalk:
 
 - Phone: +91-9876543119
 - Email: info@spacestalk.com

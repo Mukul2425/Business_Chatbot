@@ -7,6 +7,9 @@ import os
 BOOKINGS_FILE = os.path.join("data", "calendar_bookings.json")
 BOOKINGS = []
 
+WORKING_HOUR_START = 10  # 10:00
+WORKING_HOUR_END = 18    # 18:00 (exclusive)
+
 
 def _ensure_bookings_file():
     global BOOKINGS
@@ -29,7 +32,28 @@ def _save_bookings():
         json.dump(BOOKINGS, f, indent=2)
 
 
-def book_calendar(lead_name, lead_phone, datetime_str):
+def validate_consultation_slot(datetime_str):
+    """Validate slot is future, Mon-Sat, and within working hours."""
+    try:
+        booking_dt = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M")
+    except ValueError:
+        return False, "Invalid datetime format."
+
+    if booking_dt <= datetime.now():
+        return False, "Please select a future time slot."
+
+    # Monday=0 ... Sunday=6
+    if booking_dt.weekday() == 6:
+        return False, "Consultations are available Monday to Saturday."
+
+    hour = booking_dt.hour
+    if hour < WORKING_HOUR_START or hour >= WORKING_HOUR_END:
+        return False, "Please choose a slot between 10:00 and 18:00."
+
+    return True, "ok"
+
+
+def book_calendar(lead_name, lead_phone, datetime_str, chat_id=None):
     """
     Book a consultation in calendar and set reminder 1 hour before.
     
@@ -37,6 +61,11 @@ def book_calendar(lead_name, lead_phone, datetime_str):
     
     Returns booking record or None if invalid.
     """
+    is_valid, msg = validate_consultation_slot(datetime_str)
+    if not is_valid:
+        print(f"❌ Invalid slot: {msg}")
+        return None
+
     try:
         booking_dt = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M")
         reminder_dt = booking_dt - timedelta(hours=1)
@@ -50,6 +79,7 @@ def book_calendar(lead_name, lead_phone, datetime_str):
             "booked_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "status": "confirmed",
             "reminder_sent": False,
+            "chat_id": str(chat_id or ""),
         }
         
         _ensure_bookings_file()

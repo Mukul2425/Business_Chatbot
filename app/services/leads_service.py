@@ -8,6 +8,11 @@ from datetime import datetime
 captured_leads = []
 LEADS_CSV_PATH = os.path.join("data", "leads.csv")
 VALID_STATUSES = {"new", "contacted", "qualified", "converted"}
+LEAD_FIELDNAMES = [
+    "Name", "Phone", "Location", "Space Type", "Budget",
+    "Timeline", "Consultation Agreed", "Preferred Date/Time",
+    "Timestamp", "Status", "Call Attempts", "Last Call Attempt", "Chat ID",
+]
 
 
 def _ensure_leads_file():
@@ -16,13 +21,26 @@ def _ensure_leads_file():
         with open(LEADS_CSV_PATH, "w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(
                 f,
-                fieldnames=[
-                    "Name", "Phone", "Location", "Space Type", "Budget", 
-                    "Timeline", "Consultation Agreed", "Preferred Date/Time",
-                    "Timestamp", "Status", "Call Attempts", "Last Call Attempt"
-                ],
+                fieldnames=LEAD_FIELDNAMES,
             )
             writer.writeheader()
+
+
+def _load_csv_rows():
+    _ensure_leads_file()
+    with open(LEADS_CSV_PATH, "r", newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        return list(reader)
+
+
+def _write_csv_rows(rows):
+    _ensure_leads_file()
+    with open(LEADS_CSV_PATH, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=LEAD_FIELDNAMES)
+        writer.writeheader()
+        for row in rows:
+            normalized = {k: row.get(k, "") for k in LEAD_FIELDNAMES}
+            writer.writerow(normalized)
 
 
 def _normalize_phone(phone):
@@ -40,8 +58,24 @@ def is_valid_phone(phone):
     return _normalize_phone(phone) is not None
 
 
-def capture_lead(name, phone, location, space_type="General", budget=None, 
-                 timeline=None, consultation_agreed=False, preferred_datetime=None):
+def lead_exists(phone):
+    normalized_phone = _normalize_phone(phone)
+    if not normalized_phone:
+        return False
+
+    for lead in captured_leads:
+        if lead.get("phone") == normalized_phone:
+            return True
+
+    for row in _load_csv_rows():
+        if (row.get("Phone") or "").strip() == normalized_phone:
+            return True
+
+    return False
+
+
+def capture_lead(name, phone, location, space_type="General", budget=None,
+                 timeline=None, consultation_agreed=False, preferred_datetime=None, chat_id=None):
     """Capture comprehensive lead information in memory and CSV file."""
     normalized_phone = _normalize_phone(phone)
     if not normalized_phone:
@@ -60,20 +94,46 @@ def capture_lead(name, phone, location, space_type="General", budget=None,
         "status": "new",
         "call_attempts": 0,
         "last_call_attempt": None,
+        "chat_id": str(chat_id or ""),
     }
-    captured_leads.append(lead)
 
-    _ensure_leads_file()
-    with open(LEADS_CSV_PATH, "a", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(
-            f,
-            fieldnames=[
-                "Name", "Phone", "Location", "Space Type", "Budget", 
-                "Timeline", "Consultation Agreed", "Preferred Date/Time",
-                "Timestamp", "Status", "Call Attempts", "Last Call Attempt"
-            ],
-        )
-        writer.writerow(
+    # Upsert in in-memory cache
+    updated_in_memory = False
+    for existing in captured_leads:
+        if existing.get("phone") == normalized_phone:
+            existing.update(lead)
+            updated_in_memory = True
+            break
+    if not updated_in_memory:
+        captured_leads.append(lead)
+
+    # Upsert in CSV by normalized phone
+    rows = _load_csv_rows()
+    updated_csv = False
+    for row in rows:
+        if (row.get("Phone") or "").strip() == normalized_phone:
+            row.update(
+                {
+                    "Name": lead["name"],
+                    "Phone": lead["phone"],
+                    "Location": lead["location"],
+                    "Space Type": lead["space_type"],
+                    "Budget": lead["budget"],
+                    "Timeline": lead["timeline"],
+                    "Consultation Agreed": lead["consultation_agreed"],
+                    "Preferred Date/Time": lead["preferred_datetime"],
+                    "Timestamp": lead["timestamp"],
+                    "Status": lead["status"],
+                    "Call Attempts": lead["call_attempts"],
+                    "Last Call Attempt": lead["last_call_attempt"],
+                    "Chat ID": lead["chat_id"],
+                }
+            )
+            updated_csv = True
+            break
+
+    if not updated_csv:
+        rows.append(
             {
                 "Name": lead["name"],
                 "Phone": lead["phone"],
@@ -87,8 +147,11 @@ def capture_lead(name, phone, location, space_type="General", budget=None,
                 "Status": lead["status"],
                 "Call Attempts": lead["call_attempts"],
                 "Last Call Attempt": lead["last_call_attempt"],
+                "Chat ID": lead["chat_id"],
             }
         )
+
+    _write_csv_rows(rows)
 
     print(f"Lead captured: {lead['name']} - {lead['phone']} ({lead['space_type']})")
     return lead

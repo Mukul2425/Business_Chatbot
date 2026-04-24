@@ -1,0 +1,17 @@
+{
+  "999001": {
+    "chat_id": "999001",
+    "lead_name": "Test User",
+    "lead_phone": "9876543210",
+    "lead_location": "Gurgaon",
+    "lead_space_type": "2BHK",
+    "lead_budget": "10-15 lakhs",
+    "lead_timeline": "3 months",
+    "lead_consultation_agreed": true,
+    "lead_consultation_datetime": "2026-04-30 14:00",
+    "language_pref": "hinglish",
+    "current_step": "assistant",
+    "lead_stage": null,
+    "last_updated": "2026-04-23 00:23:03"
+  }
+}

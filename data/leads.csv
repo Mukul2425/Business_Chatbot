@@ -1,3 +1,7 @@
-Name,Phone,Location,Space Type,Budget,Timeline,Consultation Agreed,Preferred Date/Time,Timestamp,Status,Call Attempts,Last Call Attempt
-Mukul Kumar,+919876543210,Gurgaon,3BHK,15-20 lakhs,Within 3 months,True,2026-04-25 14:30,2026-04-21 19:29:32,new,0,
-Mukul Kumar,+919876543210,Gurgaon,3BHK,15-20 lakhs,Within 3 months,True,2026-04-25 14:30,2026-04-21 19:55:19,new,0,
+Name,Phone,Location,Space Type,Budget,Timeline,Consultation Agreed,Preferred Date/Time,Timestamp,Status,Call Attempts,Last Call Attempt,Chat ID
+Mukul Kumar,+919876543210,Gurgaon,3BHK,15-20 lakhs,Within 3 months,True,2026-04-25 14:30,2026-04-21 19:29:32,new,0,,
+Mukul Kumar,+919876543210,Gurgaon,3BHK,15-20 lakhs,Within 3 months,True,2026-04-25 14:30,2026-04-21 19:55:19,new,0,,
+Mukul Kumar,+919876543210,Gurgaon,3BHK,15-20 lakhs,Within 3 months,True,2026-04-25 14:30,2026-04-21 22:52:14,new,0,,
+Mukul Kumar,+919876543210,Gurgaon,3BHK,Not shared,Not shared,True,2026-04-25 14:30,2026-04-21 23:18:01,new,0,,
+Mukul Kumar,+919876543210,Gurgaon,General,Not shared,Not shared,True,2026-04-25 14:30,2026-04-21 23:38:19,new,0,,
+Mukul Kumar,+919899991111,Gurgaon,General,Not shared,Not shared,True,2026-04-25 14:30,2026-04-23 00:22:06,new,0,,123456
